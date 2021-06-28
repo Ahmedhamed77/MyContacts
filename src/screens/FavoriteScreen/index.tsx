@@ -4,7 +4,7 @@ import {View, Text} from 'react-native';
 export const FavoriteScreen = () => {
   return (
     <View>
-      <Text>Hello fav</Text>
+      <Text>okay</Text>
     </View>
   );
 };
