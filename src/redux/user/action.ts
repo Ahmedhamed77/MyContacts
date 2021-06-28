@@ -1,28 +1,50 @@
-import {User} from "../../api/contacts/types"
-import { AppThunk } from "../store/types"
-import { login } from "../../api/contacts"
+import {User} from '../../api/contacts/types';
+import {AppThunk} from '../store/types';
+import {login, register} from '../../api/contacts';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Alert} from 'react-native';
 
-export const userIsLoading = (state:boolean) => <const> {
+export const userIsLoading = (state: boolean) =>
+  <const>{
     type: 'USER_IS_LOADING',
     state,
-}
+  };
 
-export const getUser = (user:User) =>
- <const>{
+export const getUser = (user: User) =>
+  <const>{
     type: 'GET_USER',
     user,
-}
+  };
 
+export const userRegister = (user: User) =>
+  <const>{type: 'REGISTER_USER', user};
 
-export const getUserLogin = (username:string , password:string) : AppThunk => async dispatch =>{
-    console.log('iam here in getUSer');
-    console.log(username,password);
+export const userRegistrations =
+  (user: User): AppThunk =>
+  async dispatch => {
     try {
-        console.log('insidexs')
-        const response = await login({username, password});
-    
-        console.log(response,'repsonse');
+      const response = await register(user);
+      console.log(response, 'response register');
     } catch (error) {
-        console.log(error,'====')
+      console.log(error, 'errror');
     }
-}
+  };
+
+export const getUserLogin =
+  (username: string, password: string): AppThunk =>
+  async dispatch => {
+    console.log('iam here in getUSer');
+    console.log(username, password);
+    try {
+      console.log('insidexs');
+      const response = await login({username, password});
+      console.log(response.token, 'what is here');
+      const token = response.token;
+      await AsyncStorage.setItem('token', token);
+
+      console.log(response, 'repsonse');
+    } catch (error) {
+      Alert.alert('Error , try to enter correct username or password');
+      console.log(error, 'login Error');
+    }
+  };

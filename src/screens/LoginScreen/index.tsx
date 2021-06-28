@@ -1,10 +1,8 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Input, Button, Text} from '@ui-kitten/components';
-import {View} from 'react-native';
+import {View, Alert} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useDispatch} from 'react-redux';
-
 import {getUserLogin} from '../../redux/user/action';
 import styles from './style';
 import {RootStackParamList} from '../../navigation/root';
@@ -28,9 +26,17 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
   };
 
   const loginButton = () => {
-    console.log('here now');
-    dispatch(getUserLogin(loginValue, loginPassword));
+    if (!loginValue.trim()) {
+      Alert.alert('please enter a username');
+    } else if (!loginPassword.trim()) {
+      Alert.alert('please enter password');
+    } else {
+      dispatch(getUserLogin(loginValue, loginPassword));
+      setLoginValue('');
+      setLoginPassword('');
+    }
   };
+
   return (
     <View style={styles.container}>
       <Input
@@ -39,6 +45,7 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
         value={loginValue}
         onChangeText={nextValue => setLoginValue(nextValue)}
       />
+
       <Input
         secureTextEntry={true}
         style={styles.InputCommon}

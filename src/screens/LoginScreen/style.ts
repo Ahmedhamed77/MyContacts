@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
         
     },
     InputCommon:{
-        
         borderRadius:8,
         borderColor:'#BFBFBE',
         marginBottom:20,
