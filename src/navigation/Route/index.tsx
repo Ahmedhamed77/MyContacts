@@ -12,7 +12,7 @@ import LoginScreen from '../../screens/LoginScreen';
 import {FavoriteScreen} from '../../screens/FavoriteScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NewContact} from '../../screens/NewContactScreen';
-
+import {DetailsScreen} from '../../screens/DetailsScreen';
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
@@ -74,8 +74,8 @@ const Router = () => {
       ) : (
         <Stack.Navigator>
           <Stack.Screen name="Contacts" component={ContactsTabScreen} />
-          <Stack.Screen name="Favorite" component={FavoriteScreen} />
           <Stack.Screen name="NewContact" component={NewContact} />
+          <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
         </Stack.Navigator>
       )}
     </NavigationContainer>
