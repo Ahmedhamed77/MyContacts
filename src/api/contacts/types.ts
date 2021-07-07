@@ -20,3 +20,13 @@ export interface LoginResponsePayload {
 export interface RegisterResponsePayload {
   user: User;
 }
+
+export interface getContactsPayload {
+  country_code: string;
+  id: number;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  contact_picture: string;
+  is_favorite: boolean;
+}

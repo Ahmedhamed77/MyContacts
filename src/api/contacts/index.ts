@@ -4,6 +4,7 @@ import {
   LoginPayload,
   LoginResponsePayload,
   RegisterResponsePayload,
+  getContactsPayload,
   User,
   RegisterPayload,
 } from './types';
@@ -22,5 +23,10 @@ export const register = async (payload: RegisterPayload) => {
     'auth/register',
     payload,
   );
+  return response.data;
+};
+
+export const getContacts = async (payload: getContactsPayload) => {
+  const response = await $host.get<getContactsPayload>('auth/contacts/');
   return response.data;
 };

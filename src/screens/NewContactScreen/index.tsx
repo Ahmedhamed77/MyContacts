@@ -38,7 +38,7 @@ export const NewContact = () => {
         <View style={styles.imageContainer}>
           <Image
             source={{
-              uri: 'https://picsum.photos/seed/picsum/200/300',
+              uri: '',
             }}
             resizeMode={'cover'}
             style={styles.imageUser}
