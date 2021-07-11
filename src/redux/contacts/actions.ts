@@ -8,13 +8,13 @@ export const fetchContacts = (contacts: getContactsPayload) =>
     contacts,
   };
 
-export const fetchContactsList =
-  (contacts: getContactsPayload): AppThunk =>
-  async dispatch => {
-    try {
-      const res = await getContacts(contacts);
-      console.log(res);
-    } catch (error) {
-      console.log(error, 'fetching contacts error');
-    }
-  };
+export const fetchContactsList = (): AppThunk => async dispatch => {
+  console.log('inside here');
+  try {
+    const res = await getContacts();
+    console.log(res, 'res');
+    dispatch(fetchContacts(res));
+  } catch (error) {
+    console.log(error, 'fetching contacts error');
+  }
+};

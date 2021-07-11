@@ -1,9 +1,13 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import {Button, Icon} from '@ui-kitten/components';
 import {RootStackParamList} from '../../navigation/root';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {useDispatch, useSelector} from 'react-redux';
+import {fetchContactsList} from '../../redux/contacts/actions';
+import {Store} from '../../redux/store/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import Icon from 'react-native-vector-icons/MaterialIcons';
 // TODO * FIXME vectorICons
 // import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -19,14 +23,17 @@ type Props = {
 
 const HomeScreen: React.FC<Props> = ({navigation}) => {
   const [searchValue, setSearchValue] = useState('');
-
+  const dispatch = useDispatch();
+  const contacts = useSelector((store: Store) => store.contact.userContacts);
   const updateSearch = (value: string) => {
     setSearchValue(value);
   };
   const navigationToAddNewContact = () => {
     navigation.navigate('NewContact');
   };
-  // TODO * FIXME type of onChangeText
+
+  contacts.map((item) => console.log(item,'item'));
+  // FIXME: * FIXME type of onChangeText
   return (
     <View style={styles.container}>
       <View style={styles.headerContacts}>
@@ -47,6 +54,9 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
           onChangeText={updateSearch}
         />
       </View>
+      <TouchableOpacity onPress={() => dispatch(fetchContactsList())}>
+        <Text>hi </Text>
+      </TouchableOpacity>
     </View>
   );
 };

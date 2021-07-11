@@ -1,6 +1,8 @@
-import { combineReducers } from 'redux';
-import {user} from '../user/reducer'
+import {combineReducers} from 'redux';
+import {user} from '../user/reducer';
+import {contact} from '../contacts/reducers';
 
 export const appReducers = combineReducers({
-    user,
-})
+  user,
+  contact,
+});

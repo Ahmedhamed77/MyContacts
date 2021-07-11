@@ -6,7 +6,6 @@ import * as eva from '@eva-design/eva';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import Router from './src/navigation/Route';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const App = () => {
   return (

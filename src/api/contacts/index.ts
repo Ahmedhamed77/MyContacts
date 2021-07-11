@@ -9,6 +9,7 @@ import {
   RegisterPayload,
 } from './types';
 import {$host} from '../axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const login = async (payload: LoginPayload) => {
   const response = await $host.post<LoginResponsePayload>(
@@ -26,7 +27,10 @@ export const register = async (payload: RegisterPayload) => {
   return response.data;
 };
 
-export const getContacts = async (payload: getContactsPayload) => {
-  const response = await $host.get<getContactsPayload>('auth/contacts/');
+export const getContacts = async () => {
+  const token: any = await AsyncStorage.getItem('token');
+  const response = await $host.get<getContactsPayload>('contacts/', {
+    headers: {Authorization: `Bearer ${token}`},
+  });
   return response.data;
 };
