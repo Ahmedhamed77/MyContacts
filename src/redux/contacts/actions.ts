@@ -13,6 +13,7 @@ export const fetchContactsList = (): AppThunk => async dispatch => {
   try {
     const res = await getContacts();
     console.log(res, 'res');
+    console.log('test');
     dispatch(fetchContacts(res));
   } catch (error) {
     console.log(error, 'fetching contacts error');
