@@ -29,7 +29,7 @@ export const register = async (payload: RegisterPayload) => {
 
 export const getContacts = async () => {
   const token: any = await AsyncStorage.getItem('token');
-  const response = await $host.get<getContactsPayload>('contacts/', {
+  const response = await $host.get<getContactsPayload[]>('contacts/', {
     headers: {Authorization: `Bearer ${token}`},
   });
   return response.data;

@@ -13,7 +13,7 @@ export const contact: Reducer<ContactsReducer, ContactsAction> = (
     case 'GET_CONTACTS':
       return {
         ...state,
-        userContacts: [action.contacts],
+        userContacts: action.contacts,
       };
 
     default:
