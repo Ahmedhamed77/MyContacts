@@ -83,10 +83,3 @@ const Router = () => {
 };
 
 export default Router;
-
-const styles = StyleSheet.create({
-  icon: {
-    width: 32,
-    height: 32,
-  },
-});

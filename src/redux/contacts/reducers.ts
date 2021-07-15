@@ -15,7 +15,11 @@ export const contact: Reducer<ContactsReducer, ContactsAction> = (
         ...state,
         userContacts: action.contacts,
       };
-
+    case 'ADD_NEW_CONTACTS':
+      return {
+        ...state,
+        userContacts: [...state.userContacts, action.newContact],
+      };
     default:
       return state;
   }

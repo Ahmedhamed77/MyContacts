@@ -1,4 +1,4 @@
-import {fetchContacts} from './actions';
+import {fetchContacts, addNewContacts} from './actions';
 export interface ContactsReducer {
   userContacts: {
     id: number;
@@ -11,4 +11,6 @@ export interface ContactsReducer {
   }[];
 }
 
-export type ContactsAction = ReturnType<typeof fetchContacts>;
+export type ContactsAction =
+  | ReturnType<typeof fetchContacts>
+  | ReturnType<typeof addNewContacts>;

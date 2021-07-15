@@ -7,6 +7,7 @@ import {
   getContactsPayload,
   User,
   RegisterPayload,
+  AddContactPayload,
 } from './types';
 import {$host} from '../axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -28,9 +29,12 @@ export const register = async (payload: RegisterPayload) => {
 };
 
 export const getContacts = async () => {
-  const token: any = await AsyncStorage.getItem('token');
-  const response = await $host.get<getContactsPayload[]>('contacts/', {
-    headers: {Authorization: `Bearer ${token}`},
-  });
+  const response = await $host.get<getContactsPayload[]>('contacts/');
+  return response.data;
+};
+
+export const addNewContact = async (payload: AddContactPayload) => {
+  const response = await $host.post<AddContactPayload>('contacts/', payload);
+  console.log(response.data, 'add new contact');
   return response.data;
 };

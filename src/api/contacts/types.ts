@@ -30,3 +30,13 @@ export interface getContactsPayload {
   contact_picture: string;
   is_favorite: boolean;
 }
+
+export interface AddContactPayload {
+  id: number;
+  country_code: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  contact_picture: string | null;
+  is_favorite: boolean;
+}

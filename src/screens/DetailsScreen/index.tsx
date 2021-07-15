@@ -1,10 +1,23 @@
+import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
 import React from 'react';
 import {View} from 'react-native';
 import {Avatar, Text} from 'react-native-elements';
+import {RootStackParamList} from '../../navigation/root';
 
 import styles from './style';
 
-export const DetailsScreen = () => {
+type DetailsScreenPNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'DetailsScreen'
+>;
+type DetailsScreenProps = {
+  navigation: DetailsScreenPNavigationProp;
+  route: DetailsScreenPNavigationProp;
+};
+export const DetailsScreen: React.FC<DetailsScreenProps> = ({
+  navigation,
+  route,
+}) => {
   return (
     <View style={styles.container}>
       <View style={styles.detailsHeader}>

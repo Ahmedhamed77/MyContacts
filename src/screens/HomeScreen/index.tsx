@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, Platform, SectionList, FlatList} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+  SectionList,
+  FlatList,
+} from 'react-native';
 import {SearchBar} from 'react-native-elements';
 import {Button, Icon} from '@ui-kitten/components';
 import {RootStackParamList} from '../../navigation/root';
@@ -7,7 +15,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchContactsList} from '../../redux/contacts/actions';
 import {Store} from '../../redux/store/types';
-import {styles} from './style'
+import {styles} from './style';
+
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   'Contacts'
@@ -28,18 +37,16 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
     navigation.navigate('NewContact');
   };
 
- 
-const DATA = [
-  {
-    title: "A",
-    data: userContacts,
-  },
-];
+  const DATA = [
+    {
+      title: 'A',
+      data: userContacts,
+    },
+  ];
 
   useEffect(() => {
-    dispatch(fetchContactsList())
-  },[])
- console.log(userContacts,'contacts====')
+    dispatch(fetchContactsList());
+  }, []);
   // FIXME: * FIXME type of onChangeText
   return (
     <View style={styles.container}>
@@ -61,19 +68,22 @@ const DATA = [
           onChangeText={updateSearch}
         />
       </View>
-       <SectionList  sections={DATA}
-        renderItem={({item}) => 
-        <View style={styles.renderItemContainer}>
-         <View style={styles.containerNames}>
-            <Text style={styles.firstName}>{item.first_name} </Text>
-            <Text style={styles.lastName}>{item.last_name}</Text>
-         </View>
-        </View>
-        }
-        renderSectionHeader={({ section: { title } }) => (
+      <SectionList
+        sections={DATA}
+        renderItem={({item}) => (
+          <TouchableOpacity
+            style={styles.renderItemContainer}
+            onPress={() => navigation.navigate('DetailsScreen', {id: item.id})}>
+            <View style={styles.containerNames}>
+              <Text style={styles.firstName}>{item.first_name} </Text>
+              <Text style={styles.lastName}>{item.last_name}</Text>
+            </View>
+          </TouchableOpacity>
+        )}
+        renderSectionHeader={({section: {title}}) => (
           <Text style={styles.sectionListHeader}>{title}</Text>
         )}
-        />
+      />
     </View>
   );
 };

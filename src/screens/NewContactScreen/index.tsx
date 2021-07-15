@@ -1,50 +1,77 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-import {View, TextInput, ScrollView, ActivityIndicator} from 'react-native';
+import {
+  View,
+  TextInput,
+  ScrollView,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import {useForm, Controller} from 'react-hook-form';
 import {Image} from 'react-native-elements';
 import {Input, Button, Text} from '@ui-kitten/components';
 import styles from './style';
+import {useDispatch} from 'react-redux';
+import {addContact} from '../../redux/contacts/actions';
+import {AddContactPayload} from '../../api/contacts/types';
+import {ImagePicker} from '../../utils/ImagePicker';
 
-export interface NewContactData {
-  id: number;
-  country_code: string;
-  first_Name: string;
-  last_name: string;
-  phone_number: string;
-  contact_picture: string;
-  is_favorite: boolean;
+interface NewContactScreenProps {
+  // onSave: (data: NewContactData) => void;
 }
-
-export const NewContact = () => {
+export const NewContact: React.FC<NewContactScreenProps> = ({}) => {
+  const dispatch = useDispatch();
+  const [uri, setUri] = useState('');
+  let val = Math.floor(1000 + Math.random() * 9000);
+  console.log(val, 'random');
   const {
+    setValue,
     handleSubmit,
     control,
     formState: {errors},
-  } = useForm<NewContactData>({
+  } = useForm<AddContactPayload>({
     mode: 'onSubmit',
     defaultValues: {
+      id: val,
       country_code: '',
-      first_Name: '',
+      first_name: '',
       last_name: '',
       phone_number: '',
-      contact_picture: '',
+      contact_picture: null,
       is_favorite: false,
     },
   });
+  const uploadAvatar = async () => {
+    const avatar = await ImagePicker.pickSquarePhoto();
+    const checkSize = avatar && ImagePicker.checkSize(avatar);
+    if (!avatar) return;
+    try {
+      if (avatar && checkSize) {
+        const photo = ImagePicker.convertForPayload(avatar);
+        setUri(photo.uri);
+        setValue('contact_picture', photo.uri);
+      }
+    } catch (error) {
+      console.log(error, 'error uploadAvatar');
+    }
+  };
+  const onSubmit = handleSubmit(data => {
+    console.log(data, 'data');
+    dispatch(addContact(data));
+  });
   return (
-    <ScrollView>
+    <ScrollView keyboardShouldPersistTaps="handled">
       <View style={styles.container}>
-        <View style={styles.imageContainer}>
+        <TouchableOpacity style={styles.imageContainer} onPress={uploadAvatar}>
           <Image
             source={{
-              uri: '',
+              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzsNYiHojiPLt8z6glBg8PIw6E3ADKddJ6eg&usqp=CAU',
             }}
             resizeMode={'cover'}
             style={styles.imageUser}
             PlaceholderContent={<ActivityIndicator />}
           />
-        </View>
+        </TouchableOpacity>
 
         <Text style={styles.label}>First name</Text>
         <Controller
@@ -59,8 +86,14 @@ export const NewContact = () => {
               value={value}
             />
           )}
-          name="first_Name"
-          rules={{required: true}}
+          name="first_name"
+          rules={{
+            required: {
+              value: true,
+              message: 'First name is Required',
+            },
+          }}
+          defaultValue=""
         />
         <Text style={styles.label}>Last name</Text>
         <Controller
@@ -76,7 +109,13 @@ export const NewContact = () => {
             />
           )}
           name="last_name"
-          rules={{required: true}}
+          rules={{
+            required: {
+              value: true,
+              message: 'Last name is Required',
+            },
+          }}
+          defaultValue=""
         />
         <Text style={styles.label}>phone number</Text>
         <Controller
@@ -93,7 +132,13 @@ export const NewContact = () => {
             />
           )}
           name="phone_number"
-          rules={{required: true}}
+          rules={{
+            required: {
+              value: true,
+              message: 'Phone number is Required',
+            },
+          }}
+          defaultValue=""
         />
         <Text style={styles.label}>Country Code</Text>
         <Controller
@@ -109,26 +154,20 @@ export const NewContact = () => {
             />
           )}
           name="country_code"
-          rules={{required: true}}
+          rules={{
+            required: {
+              value: true,
+              message: 'Country code is Required',
+            },
+          }}
+          defaultValue=""
         />
 
         <View style={styles.buttonContainer}>
-          <Button
-            style={styles.button}
-            onPress={() => {
-              console.log('saved');
-            }}>
+          <Button style={styles.button} onPress={onSubmit}>
             Save
           </Button>
         </View>
-        {/* <View style={styles.Footer}>
-          <Text style={styles.Normal}>
-            Есть аккаунт?
-            <Text onPress={navigationToLogin} style={styles.Special}>
-              Войти
-            </Text>
-          </Text>
-        </View> */}
       </View>
     </ScrollView>
   );
