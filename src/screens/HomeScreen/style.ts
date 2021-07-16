@@ -37,21 +37,34 @@ export const styles = StyleSheet.create({
     width: 35,
     height: 35,
   },
+  containerList: {
+    paddingHorizontal: 6,
+  },
   renderItemContainer: {
     backgroundColor: '#FFFFFF',
+    borderRadius: 5,
     paddingVertical: 12,
-    borderBottomWidth: 0.5,
+    marginVertical: 10,
   },
   containerNames: {
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
   },
+  rowNames: {
+    flexDirection: 'row',
+    paddingTop: 8,
+    paddingLeft: 7,
+  },
+
   firstName: {
     fontSize: 17,
   },
   lastName: {
     fontSize: 17,
     fontWeight: 'bold',
+  },
+  rowFavorite: {
+    paddingHorizontal: 10,
   },
   sectionListHeader: {
     color: '#000000',

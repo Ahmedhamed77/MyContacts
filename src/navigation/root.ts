@@ -3,6 +3,6 @@ export type RootStackParamList = {
   Register: undefined; // undefined because
   Contacts: undefined; // undefined because
   NewContact: undefined;
-  DetailsScreen: {id: number};
+  DetailsScreen: {id: number; person: any};
   Favorite: undefined; // undefined because
 };

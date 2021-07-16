@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  HeaderStyleInterpolators,
+  TransitionPresets,
+} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
@@ -13,6 +17,7 @@ import {FavoriteScreen} from '../../screens/FavoriteScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NewContact} from '../../screens/NewContactScreen';
 import {DetailsScreen} from '../../screens/DetailsScreen';
+
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
@@ -73,9 +78,27 @@ const Router = () => {
         </Stack.Navigator>
       ) : (
         <Stack.Navigator>
-          <Stack.Screen name="Contacts" component={ContactsTabScreen} />
-          <Stack.Screen name="NewContact" component={NewContact} />
-          <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
+          <Stack.Screen
+            name="Contacts"
+            component={ContactsTabScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="NewContact"
+            component={NewContact}
+            options={{
+              ...TransitionPresets.SlideFromRightIOS,
+            }}
+          />
+          <Stack.Screen
+            name="DetailsScreen"
+            component={DetailsScreen}
+            options={{
+              ...TransitionPresets.SlideFromRightIOS,
+            }}
+          />
         </Stack.Navigator>
       )}
     </NavigationContainer>

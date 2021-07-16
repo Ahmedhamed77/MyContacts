@@ -17,6 +17,12 @@ export const addNewContacts = (newContact: AddContactPayload) =>
     newContact,
   };
 
+export const personContact = (contactPerson: AddContactPayload) =>
+  <const>{
+    type: 'PERSON_CONTACT',
+    contactPerson,
+  };
+
 export const fetchContactsList = (): AppThunk => async dispatch => {
   console.log('inside here');
   try {
@@ -40,3 +46,16 @@ export const addContact =
       console.log(error, 'error addNewContact');
     }
   };
+
+// export const fetchPersonContact =
+//   (id: number): AppThunk =>
+//   async dispatch => {
+//     console.log('what is id', id);
+//     try {
+//       const res = await fetchContact(id);
+//       dispatch(personContact(res));
+//       console.log(res, 'user contact');
+//     } catch (error: any) {
+//       console.log('error fetching contact', error);
+//     }
+//   };

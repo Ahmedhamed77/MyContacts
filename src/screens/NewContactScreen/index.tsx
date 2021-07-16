@@ -15,11 +15,19 @@ import {useDispatch} from 'react-redux';
 import {addContact} from '../../redux/contacts/actions';
 import {AddContactPayload} from '../../api/contacts/types';
 import {ImagePicker} from '../../utils/ImagePicker';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackParamList} from '../../navigation/root';
 
-interface NewContactScreenProps {
-  // onSave: (data: NewContactData) => void;
-}
-export const NewContact: React.FC<NewContactScreenProps> = ({}) => {
+type NewContactScreenProps = {
+  navigation: NewContactNavigationProp;
+};
+
+type NewContactNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'NewContact'
+>;
+
+export const NewContact: React.FC<NewContactScreenProps> = ({navigation}) => {
   const dispatch = useDispatch();
   const [uri, setUri] = useState('');
   let val = Math.floor(1000 + Math.random() * 9000);
@@ -58,6 +66,7 @@ export const NewContact: React.FC<NewContactScreenProps> = ({}) => {
   const onSubmit = handleSubmit(data => {
     console.log(data, 'data');
     dispatch(addContact(data));
+    navigation.goBack();
   });
   return (
     <ScrollView keyboardShouldPersistTaps="handled">

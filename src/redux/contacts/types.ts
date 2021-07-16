@@ -1,4 +1,5 @@
-import {fetchContacts, addNewContacts} from './actions';
+import {AddContactPayload} from '../../api/contacts/types';
+import {fetchContacts, addNewContacts, personContact} from './actions';
 export interface ContactsReducer {
   userContacts: {
     id: number;
@@ -9,8 +10,10 @@ export interface ContactsReducer {
     country_code: string;
     phone_number: string;
   }[];
+  person: AddContactPayload;
 }
 
 export type ContactsAction =
   | ReturnType<typeof fetchContacts>
+  | ReturnType<typeof personContact>
   | ReturnType<typeof addNewContacts>;

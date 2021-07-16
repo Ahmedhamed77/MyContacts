@@ -38,3 +38,13 @@ export const addNewContact = async (payload: AddContactPayload) => {
   console.log(response.data, 'add new contact');
   return response.data;
 };
+
+export const updateContact = async (payload: AddContactPayload) => {
+  const response = await $host.put<AddContactPayload>(`contacts/${payload.id}`);
+  return response.data;
+};
+// export const fetchContact = async (id: number) => {
+//   const response = await $host.get(`contacts/${id}`);
+//   console.log(response.data, 'fetch contact by id');
+//   return response.data;
+// };
