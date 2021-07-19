@@ -19,6 +19,7 @@ import {Store} from '../../redux/store/types';
 import {styles} from './style';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useIsFocused} from '@react-navigation/native';
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -40,6 +41,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
     navigation.navigate('NewContact');
   };
 
+  const isFocused = useIsFocused();
   const DATA = [
     {
       title: 'A',
@@ -49,7 +51,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
 
   useEffect(() => {
     dispatch(fetchContactsList());
-  }, []);
+  }, [isFocused]);
   // FIXME: * FIXME type of onChangeText
   return (
     <View style={styles.container}>
@@ -88,27 +90,6 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                 <Text style={styles.lastName}>
                   {item.last_name.toLocaleUpperCase()}
                 </Text>
-              </View>
-              <View style={styles.rowFavorite}>
-                <TouchableOpacity
-                  onPress={() => console.log('here')}
-                  activeOpacity={0.7}
-                  style={{
-                    flexDirection: 'row',
-                    padding: 2,
-                    // backgroundColor: exists(movie) ? '#2D3038' : '#F96D41',
-                    borderRadius: 20,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: 40,
-                    width: 40,
-                  }}>
-                  <MaterialIcons
-                    color="#8E8E8F"
-                    size={20}
-                    name="favorite-outline"
-                  />
-                </TouchableOpacity>
               </View>
             </View>
           </TouchableOpacity>

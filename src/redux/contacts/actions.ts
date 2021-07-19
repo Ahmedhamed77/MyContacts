@@ -1,4 +1,8 @@
-import {getContacts, addNewContact} from '../../api/contacts';
+import {
+  getContacts,
+  addNewContact,
+  updatePersonContact,
+} from '../../api/contacts';
 import {AppThunk} from '../store/types';
 import {
   AddContactPayload,
@@ -17,9 +21,9 @@ export const addNewContacts = (newContact: AddContactPayload) =>
     newContact,
   };
 
-export const personContact = (contactPerson: AddContactPayload) =>
+export const updateUserContact = (contactPerson: AddContactPayload) =>
   <const>{
-    type: 'PERSON_CONTACT',
+    type: 'UPDATE_USER_CONTACT',
     contactPerson,
   };
 
@@ -47,6 +51,15 @@ export const addContact =
     }
   };
 
+export const updateContact =
+  (payload: AddContactPayload): AppThunk =>
+  async dispatch => {
+    try {
+      const res = await updatePersonContact(payload);
+    } catch (error: any) {
+      console.log(error, 'error addNewContact');
+    }
+  };
 // export const fetchPersonContact =
 //   (id: number): AppThunk =>
 //   async dispatch => {

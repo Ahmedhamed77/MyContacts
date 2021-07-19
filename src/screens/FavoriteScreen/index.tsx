@@ -4,30 +4,50 @@ import {Avatar} from 'react-native-elements';
 
 import {styles} from './style';
 import {dataPhotos} from './personPhotos';
+import {useDispatch, useSelector} from 'react-redux';
+import {Store} from '../../redux/store/types';
+import {contact} from '../../redux/contacts/reducers';
 
 export const FavoriteScreen = () => {
   const url = dataPhotos[Math.floor(Math.random() * dataPhotos.length)];
-  console.log('url is', url);
+  const dispatch = useDispatch();
+  const contacts = useSelector((store: Store) => store.contact.userContacts);
+
+  const count = Object.values(contacts).filter(
+    item => item.is_favorite === true,
+  ).length;
+
+  console.log(count);
   return (
     <SafeAreaView style={styles.safeArea}>
       <View>
-        <Text> 0 Counter will be here</Text>
+        <Text> {count} Favorites</Text>
       </View>
       <View>
-        <View style={styles.block}>
-          <Avatar
-            size="medium"
-            rounded
-            source={{
-              uri: url,
-            }}
-            activeOpacity={1}
-          />
-          <View style={styles.dataPerson}>
-            <Text style={styles.personName}>Name</Text>
-            <Text style={styles.personNumber}>Number</Text>
-          </View>
-        </View>
+        {contacts.map(contact => {
+          return (
+            contact.is_favorite && (
+              <View key={contact.id}>
+                <View style={styles.block}>
+                  <Avatar
+                    size="medium"
+                    rounded
+                    source={{
+                      uri: url,
+                    }}
+                    activeOpacity={1}
+                  />
+                  <View style={styles.dataPerson}>
+                    <Text style={styles.personName}>{contact.first_name}</Text>
+                    <Text style={styles.personNumber}>
+                      {contact.phone_number}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            )
+          );
+        })}
       </View>
     </SafeAreaView>
   );

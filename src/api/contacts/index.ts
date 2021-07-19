@@ -39,12 +39,10 @@ export const addNewContact = async (payload: AddContactPayload) => {
   return response.data;
 };
 
-export const updateContact = async (payload: AddContactPayload) => {
-  const response = await $host.put<AddContactPayload>(`contacts/${payload.id}`);
+export const updatePersonContact = async (payload: AddContactPayload) => {
+  const response = await $host.put<AddContactPayload>(
+    `contacts/${payload.id}`,
+    payload,
+  );
   return response.data;
 };
-// export const fetchContact = async (id: number) => {
-//   const response = await $host.get(`contacts/${id}`);
-//   console.log(response.data, 'fetch contact by id');
-//   return response.data;
-// };

@@ -17,6 +17,7 @@ import {FavoriteScreen} from '../../screens/FavoriteScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NewContact} from '../../screens/NewContactScreen';
 import {DetailsScreen} from '../../screens/DetailsScreen';
+import {EditScreen} from '../../screens/EditScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootStackParamList>();
@@ -95,6 +96,13 @@ const Router = () => {
           <Stack.Screen
             name="DetailsScreen"
             component={DetailsScreen}
+            options={{
+              ...TransitionPresets.SlideFromRightIOS,
+            }}
+          />
+          <Stack.Screen
+            name="Edit"
+            component={EditScreen}
             options={{
               ...TransitionPresets.SlideFromRightIOS,
             }}

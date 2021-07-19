@@ -5,4 +5,5 @@ export type RootStackParamList = {
   NewContact: undefined;
   DetailsScreen: {id: number; person: any};
   Favorite: undefined; // undefined because
+  Edit: {person: any}; // undefined
 };
