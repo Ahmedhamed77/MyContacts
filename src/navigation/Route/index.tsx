@@ -18,6 +18,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NewContact} from '../../screens/NewContactScreen';
 import {DetailsScreen} from '../../screens/DetailsScreen';
 import {EditScreen} from '../../screens/EditScreen';
+import {useSelector} from 'react-redux';
+import {Store} from '../../redux/store/types';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootStackParamList>();
@@ -31,16 +33,7 @@ const tabBarOptions = {
 };
 
 const Router = () => {
-  const [token, setToken] = useState('');
-  useEffect(() => {
-    getToken();
-  }, []);
-
-  const getToken = async () => {
-    // TODO * FIXME <Type>
-    const tokenData: any = await AsyncStorage.getItem('token');
-    setToken(tokenData);
-  };
+  const token = useSelector((store: Store) => store.user.token);
 
   // TODO * FIXME >> move me to another file
   const ContactsTabScreen = (): JSX.Element => {
@@ -72,43 +65,45 @@ const Router = () => {
 
   return (
     <NavigationContainer>
-      {token === null ? (
-        <Stack.Navigator>
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Register" component={RegisterScreen} />
-        </Stack.Navigator>
-      ) : (
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Contacts"
-            component={ContactsTabScreen}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="NewContact"
-            component={NewContact}
-            options={{
-              ...TransitionPresets.SlideFromRightIOS,
-            }}
-          />
-          <Stack.Screen
-            name="DetailsScreen"
-            component={DetailsScreen}
-            options={{
-              ...TransitionPresets.SlideFromRightIOS,
-            }}
-          />
-          <Stack.Screen
-            name="Edit"
-            component={EditScreen}
-            options={{
-              ...TransitionPresets.SlideFromRightIOS,
-            }}
-          />
-        </Stack.Navigator>
-      )}
+      <Stack.Navigator>
+        {token == null ? (
+          <>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Register" component={RegisterScreen} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen
+              name="Contacts"
+              component={ContactsTabScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="NewContact"
+              component={NewContact}
+              options={{
+                ...TransitionPresets.SlideFromRightIOS,
+              }}
+            />
+            <Stack.Screen
+              name="DetailsScreen"
+              component={DetailsScreen}
+              options={{
+                ...TransitionPresets.SlideFromRightIOS,
+              }}
+            />
+            <Stack.Screen
+              name="Edit"
+              component={EditScreen}
+              options={{
+                ...TransitionPresets.SlideFromRightIOS,
+              }}
+            />
+          </>
+        )}
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

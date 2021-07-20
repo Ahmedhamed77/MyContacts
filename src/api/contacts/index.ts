@@ -33,6 +33,11 @@ export const getContacts = async () => {
   return response.data;
 };
 
+export const getPersonContact = async (id: number) => {
+  const response = await $host.get(`contacts/${id}`);
+  return response.data;
+};
+
 export const addNewContact = async (payload: AddContactPayload) => {
   const response = await $host.post<AddContactPayload>('contacts/', payload);
   console.log(response.data, 'add new contact');

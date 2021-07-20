@@ -10,7 +10,6 @@ import {contact} from '../../redux/contacts/reducers';
 
 export const FavoriteScreen = () => {
   const url = dataPhotos[Math.floor(Math.random() * dataPhotos.length)];
-  const dispatch = useDispatch();
   const contacts = useSelector((store: Store) => store.contact.userContacts);
 
   const count = Object.values(contacts).filter(

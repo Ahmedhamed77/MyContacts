@@ -2,12 +2,19 @@ import {
   getContacts,
   addNewContact,
   updatePersonContact,
+  getPersonContact,
 } from '../../api/contacts';
 import {AppThunk} from '../store/types';
 import {
   AddContactPayload,
   getContactsPayload,
 } from './../../api/contacts/types';
+
+export const contactsIsLoading = (status: boolean) =>
+  <const>{
+    type: 'CONTACTS_IS_LOADING',
+    status,
+  };
 
 export const fetchContacts = (contacts: getContactsPayload[]) =>
   <const>{
@@ -27,8 +34,14 @@ export const updateUserContact = (contactPerson: AddContactPayload) =>
     contactPerson,
   };
 
+export const fetchContact = (contactPerson: AddContactPayload) =>
+  <const>{
+    type: 'FETCH_CONTACT_WITH_ID',
+    contactPerson,
+  };
 export const fetchContactsList = (): AppThunk => async dispatch => {
   console.log('inside here');
+  dispatch(contactsIsLoading(true));
   try {
     const res = await getContacts();
     console.log(res, 'res===');
@@ -36,6 +49,7 @@ export const fetchContactsList = (): AppThunk => async dispatch => {
   } catch (error) {
     console.log(error, 'fetching contacts error');
   }
+  dispatch(contactsIsLoading(false));
 };
 
 export const addContact =
@@ -54,21 +68,27 @@ export const addContact =
 export const updateContact =
   (payload: AddContactPayload): AppThunk =>
   async dispatch => {
+    dispatch(contactsIsLoading(true));
     try {
       const res = await updatePersonContact(payload);
+      dispatch(updateUserContact(res));
     } catch (error: any) {
       console.log(error, 'error addNewContact');
     }
+    dispatch(contactsIsLoading(false));
   };
-// export const fetchPersonContact =
-//   (id: number): AppThunk =>
-//   async dispatch => {
-//     console.log('what is id', id);
-//     try {
-//       const res = await fetchContact(id);
-//       dispatch(personContact(res));
-//       console.log(res, 'user contact');
-//     } catch (error: any) {
-//       console.log('error fetching contact', error);
-//     }
-//   };
+
+export const fetchPersonContact =
+  (id: number): AppThunk =>
+  async dispatch => {
+    console.log('what is id', id);
+    dispatch(contactsIsLoading(true));
+    try {
+      const res = await getPersonContact(id);
+      dispatch(fetchContact(res));
+      console.log(res, 'user contact');
+    } catch (error: any) {
+      console.log('error fetching contact', error);
+    }
+    dispatch(contactsIsLoading(false));
+  };

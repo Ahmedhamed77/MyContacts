@@ -2,10 +2,11 @@ import React, {useState, useEffect} from 'react';
 import {Input, Button, Text} from '@ui-kitten/components';
 import {View, Alert} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {getUserLogin} from '../../redux/user/action';
 import styles from './style';
 import {RootStackParamList} from '../../navigation/root';
+import {Store} from '../../redux/store/types';
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,

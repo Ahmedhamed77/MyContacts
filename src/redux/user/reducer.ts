@@ -2,11 +2,13 @@ import {Reducer} from 'redux';
 import {UserAction, UserReducer} from './types';
 
 export const initialState: UserReducer = {
+  user: {},
   isLoading: false,
   username: '',
   first_name: '',
   last_name: '',
   email: '',
+  token: null,
 };
 
 export const user: Reducer<UserReducer, UserAction> = (
@@ -26,6 +28,11 @@ export const user: Reducer<UserReducer, UserAction> = (
         user: action.user,
       };
     }
+    case 'GET_TOKEN':
+      return {
+        ...state,
+        token: action.token,
+      };
     case 'REGISTER_USER': {
       return {
         ...state,

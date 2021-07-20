@@ -41,6 +41,29 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
     navigation.navigate('NewContact');
   };
 
+  const getData = () => {
+    let contactsArr = [];
+    let aCode = 'A'.charCodeAt(0);
+    for (let i = 0; i < 26; i++) {
+      let currChar = String.fromCharCode(aCode + i);
+      let obj = {
+        title: currChar,
+      };
+
+      let currContacts = userContacts.filter(item => {
+        return item.last_name[0].toUpperCase() === currChar;
+      });
+      if (currContacts.length > 0) {
+        currContacts.sort((a, b) => a.last_name.localeCompare(b.last_name));
+        obj.data = currContacts;
+        contactsArr.push(obj);
+      }
+    }
+    return contactsArr;
+  };
+
+  console.log(getData(), 'getdata');
+
   const isFocused = useIsFocused();
   const DATA = [
     {
@@ -74,7 +97,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
         />
       </View>
       <SectionList
-        sections={DATA}
+        sections={getData()}
         contentContainerStyle={styles.containerList}
         renderItem={({item}) => (
           <TouchableOpacity

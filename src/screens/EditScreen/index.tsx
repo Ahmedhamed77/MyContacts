@@ -17,8 +17,9 @@ import {Input} from '@ui-kitten/components';
 import {Button} from 'react-native-elements';
 import {Controller, useForm} from 'react-hook-form';
 import {AddContactPayload} from '../../api/contacts/types';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {updateContact} from '../../redux/contacts/actions';
+import {Store} from '../../redux/store/types';
 
 type EditScreenPNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -60,6 +61,8 @@ export const EditScreen: React.FC<DetailsScreenProps> = ({
     dispatch(updateContact(data));
     navigation.goBack();
   });
+  const loading = useSelector((store: Store) => store.contact.isLoading);
+  console.log(loading, 'loading');
 
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
@@ -154,6 +157,7 @@ export const EditScreen: React.FC<DetailsScreenProps> = ({
         <Button
           onPress={onSubmit}
           title="Save"
+          loading={loading}
           buttonStyle={{backgroundColor: '#000', paddingVertical: 10}}
         />
       </View>
