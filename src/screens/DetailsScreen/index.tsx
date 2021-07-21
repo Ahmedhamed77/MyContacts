@@ -27,7 +27,7 @@ export const DetailsScreen: React.FC<DetailsScreenProps> = ({
   navigation,
   route,
 }) => {
-  const {id} = route.params;
+  const id = route.params.id;
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
   const item = useSelector((store: Store) => store.contact.personContact);

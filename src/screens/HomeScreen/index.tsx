@@ -7,6 +7,7 @@ import {
   Platform,
   SectionList,
   FlatList,
+  Animated,
   ActivityIndicator,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
@@ -21,7 +22,7 @@ import {styles} from './style';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useIsFocused} from '@react-navigation/native';
-import {log} from 'react-native-reanimated';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -79,6 +80,20 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
 
   console.log('filter data', filterData);
 
+  const leftSwipe = (progress: any, dragX: any) => {
+    const scale = dragX.interpolate({
+      inputRange: [0, 100],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
+    });
+    return (
+      <View style={styles.delete}>
+        <Animated.Text style={{transform: [{scale: scale}]}}>
+          Delete
+        </Animated.Text>
+      </View>
+    );
+  };
   // FIXME: * FIXME type of onChangeText
   return isLoading ? (
     <View style={{flex: 1, justifyContent: 'center'}}>
@@ -121,14 +136,18 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
           </View>
         }
         renderItem={({item}) => (
-          <TouchableOpacity
-            style={styles.row}
-            onPress={() =>
-              navigation.navigate('DetailsScreen', {id: item.id, person: item})
-            }>
-            <Text style={styles.firstName}>{item.first_name}</Text>
-            <Text style={styles.lastName}>{item.last_name}</Text>
-          </TouchableOpacity>
+          <Swipeable renderLeftActions={leftSwipe}>
+            <TouchableOpacity
+              style={styles.row}
+              onPress={() =>
+                navigation.navigate('DetailsScreen', {
+                  id: item.id,
+                })
+              }>
+              <Text style={styles.firstName}>{item.first_name}</Text>
+              <Text style={styles.lastName}>{item.last_name}</Text>
+            </TouchableOpacity>
+          </Swipeable>
         )}
         renderSectionHeader={({section}) => (
           <View style={styles.sectionHeader}>

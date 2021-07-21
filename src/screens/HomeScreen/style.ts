@@ -95,6 +95,13 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
+  delete: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 100,
+    height: 40,
+  },
 });
 
 export default styles;
