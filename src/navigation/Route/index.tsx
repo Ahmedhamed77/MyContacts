@@ -33,8 +33,14 @@ const tabBarOptions = {
 };
 
 const Router = () => {
-  const token = useSelector((store: Store) => store.user.token);
+  // const token = useSelector((store: Store) => store.user.token);
 
+  const getToken = async () => {
+    const token = await AsyncStorage.getItem('token');
+    return token;
+  };
+
+  const tokenUser = getToken();
   // TODO * FIXME >> move me to another file
   const ContactsTabScreen = (): JSX.Element => {
     return (
@@ -66,7 +72,7 @@ const Router = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {token == null ? (
+        {tokenUser === null ? (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={RegisterScreen} />

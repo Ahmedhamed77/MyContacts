@@ -3,7 +3,8 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
+    backgroundColor: '#F3F3F3',
+    flexDirection: 'row',
   },
   inputContainer: {
     flexDirection: 'row',
@@ -13,6 +14,11 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   headerContacts: {
+    backgroundColor: '#F3F3F3',
+    flex: 1,
+    padding: 10,
+  },
+  headerTitle: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
@@ -20,7 +26,7 @@ export const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   searchBar: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#F3F3F3',
   },
   headerText: {
     fontSize: 28,
@@ -58,19 +64,32 @@ export const styles = StyleSheet.create({
 
   firstName: {
     fontSize: 17,
+    paddingRight: 8,
+    textTransform: 'uppercase',
   },
   lastName: {
     fontSize: 17,
     fontWeight: 'bold',
+    textTransform: 'uppercase',
   },
-  rowFavorite: {
-    paddingHorizontal: 10,
-  },
+
   sectionListHeader: {
     color: '#000000',
     fontSize: 18,
     fontWeight: 'bold',
     lineHeight: 20,
+  },
+  row: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: '#FFFFFF',
+
+    flexDirection: 'row',
+  },
+  sectionHeader: {
+    backgroundColor: '#efefef',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
 });
 

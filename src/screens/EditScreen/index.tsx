@@ -1,25 +1,20 @@
 import React from 'react';
 import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  ScrollView,
-} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 
-import {RootStackParamList} from '../../navigation/root';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {Avatar} from 'react-native-elements';
 import styles from './styles';
 import {Input} from '@ui-kitten/components';
 import {Button} from 'react-native-elements';
 import {Controller, useForm} from 'react-hook-form';
+
 import {AddContactPayload} from '../../api/contacts/types';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateContact} from '../../redux/contacts/actions';
 import {Store} from '../../redux/store/types';
+import {RootStackParamList} from '../../navigation/root';
 
 type EditScreenPNavigationProp = StackNavigationProp<
   RootStackParamList,
