@@ -10,6 +10,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
   buttonContainer: {
     flexDirection: 'row',
   },

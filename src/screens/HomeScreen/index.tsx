@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -7,6 +7,7 @@ import {
   Platform,
   SectionList,
   FlatList,
+  ActivityIndicator,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, SearchBar} from 'react-native-elements';
@@ -33,14 +34,12 @@ type Props = {
 
 const HomeScreen: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
-  const {userContacts} = useSelector((store: Store) => store.contact);
+  const userContacts = useSelector(
+    (store: Store) => store.contact.userContacts,
+  );
+  const isLoading = useSelector((store: Store) => store.contact.isLoading);
   const [searchValue, setSearchValue] = useState('');
-  // const [dataContacts, setDataContacts] = useState(userContacts);
-  console.log('dataContacts', userContacts);
 
-  const updateSearch = (value: string) => {
-    setSearchValue(value);
-  };
   const navigationToAddNewContact = () => {
     navigation.navigate('NewContact');
   };
@@ -63,46 +62,32 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
         contactsArr.push(obj);
       }
     }
+
     return contactsArr;
   };
-  const DATA = sortContacts();
-  const [masterDataSource, setMasterDataSource] = useState(DATA);
-  const [filteredDataSource, setFilteredDataSource] = useState(DATA);
+  const dataContacts = sortContacts();
+  const test = dataContacts;
+  console.log(test, 'test ====');
+  console.log('data', dataContacts);
+  const [filterData, setFilterData] = useState(test);
   const isFocused = useIsFocused();
 
   useEffect(() => {
+    console.log('here');
     dispatch(fetchContactsList());
-  }, [isFocused, dispatch]);
+  }, [isFocused]);
 
-  const searchFilterFunction = (text: any) => {
-    // Check if searched text is not blank
-    if (text) {
-      // Inserted text is not blank
-      // Filter the masterDataSource
-      // Update FilteredDataSource
-      const newData = masterDataSource.filter(function (item) {
-        const itemData = item.title
-          ? item.title.toUpperCase()
-          : ''.toUpperCase();
-        const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;
-      });
-      setFilteredDataSource(newData);
-      setSearchValue(text);
-    } else {
-      // Inserted text is blank
-      // Update FilteredDataSource with masterDataSource
-      setFilteredDataSource(masterDataSource);
-      setSearchValue(text);
-    }
-  };
+  console.log('filter data', filterData);
 
   // FIXME: * FIXME type of onChangeText
-  console.log(userContacts, 'filteredDataSource');
-  return (
+  return isLoading ? (
+    <View style={{flex: 1, justifyContent: 'center'}}>
+      <ActivityIndicator size="large" color="#0000ff" />
+    </View>
+  ) : (
     <View style={styles.container}>
       <SectionList
-        sections={filteredDataSource}
+        sections={dataContacts}
         ListHeaderComponent={
           <View style={styles.headerContacts}>
             <View style={styles.headerTitle}>
@@ -131,7 +116,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
               placeholder="type here .."
               value={searchValue}
               containerStyle={styles.searchBar}
-              onChangeText={text => searchFilterFunction(text)}
+              // onChangeText={text => searchFilterFunction(text)}
             />
           </View>
         }
@@ -147,57 +132,12 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
         )}
         renderSectionHeader={({section}) => (
           <View style={styles.sectionHeader}>
-            <Text>{section.title}</Text>
+            <Text style={styles.sectionTitle}>{section.title}</Text>
           </View>
         )}
         keyExtractor={item => item.id}
       />
     </View>
-    // <View style={styles.container}>
-    //   <View style={styles.headerContacts}>
-    //     <Text style={styles.headerText}>Contacts</Text>
-    //     <TouchableOpacity
-    //       style={styles.iconContainer}
-    //       onPress={navigationToAddNewContact}>
-    //       <Icon name="plus-outline" fill="#007AFF" style={styles.icon} />
-    //     </TouchableOpacity>
-    //   </View>
-    //   <View>
-    //     <SearchBar
-    //       returnKeyType="search"
-    //       platform={Platform.OS === 'ios' ? 'ios' : 'android'}
-    //       placeholder="type here .."
-    //       value={searchValue}
-    //       containerStyle={styles.searchBar}
-    //       onChangeText={updateSearch}
-    //     />
-    //   </View>
-    //   <SectionList
-    //     sections={getData()}
-    //     contentContainerStyle={styles.containerList}
-    //     renderItem={({item}) => (
-    //       <TouchableOpacity
-    //         style={styles.renderItemContainer}
-    //         onPress={() =>
-    //           navigation.navigate('DetailsScreen', {id: item.id, person: item})
-    //         }>
-    //         <View style={styles.containerNames}>
-    //           <View style={styles.rowNames}>
-    //             <Text style={styles.firstName}>
-    //               {item.first_name.toLocaleUpperCase()}{' '}
-    //             </Text>
-    //             <Text style={styles.lastName}>
-    //               {item.last_name.toLocaleUpperCase()}
-    //             </Text>
-    //           </View>
-    //         </View>
-    //       </TouchableOpacity>
-    //     )}
-    //     renderSectionHeader={({section: {title}}) => (
-    //       <Text style={styles.sectionListHeader}>{title}</Text>
-    //     )}
-    //   />
-    // </View>
   );
 };
 
