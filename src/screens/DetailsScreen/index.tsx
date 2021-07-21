@@ -32,6 +32,7 @@ export const DetailsScreen: React.FC<DetailsScreenProps> = ({
   const isFocused = useIsFocused();
   const item = useSelector((store: Store) => store.contact.personContact);
   const {first_name, last_name, phone_number}: any = item;
+
   useEffect(() => {
     dispatch(fetchPersonContact(id));
   }, [id, isFocused]);
