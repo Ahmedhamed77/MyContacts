@@ -11,12 +11,10 @@ import {contact} from '../../redux/contacts/reducers';
 export const FavoriteScreen = () => {
   const url = dataPhotos[Math.floor(Math.random() * dataPhotos.length)];
   const contacts = useSelector((store: Store) => store.contact.userContacts);
-
   const count = Object.values(contacts).filter(
     item => item.is_favorite === true,
   ).length;
 
-  console.log(count);
   return (
     <SafeAreaView style={styles.safeArea}>
       <View>

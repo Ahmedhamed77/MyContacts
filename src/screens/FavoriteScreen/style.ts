@@ -2,8 +2,9 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   safeArea: {
-    paddingHorizontal: 12,
-    paddingVertical: 12,
+    paddingHorizontal: 16,
+    marginHorizontal: 10,
+    flex: 1,
   },
   block: {
     flexDirection: 'row',
@@ -15,14 +16,11 @@ export const styles = StyleSheet.create({
   },
   dataPerson: {
     paddingHorizontal: 12,
-    fontFamily: 'Poppins-Regular',
   },
   personName: {
-    fontFamily: 'Poppins-Regular',
     fontSize: 20,
   },
   personNumber: {
-    fontFamily: 'Poppins-Regular',
     fontSize: 10,
     color: 'grey',
   },

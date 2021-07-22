@@ -60,17 +60,18 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
   const searchFilter = useCallback(
     text => {
       if (text) {
-        const newData = userContacts.filter(function (item) {
-          const itemData = item.title
-            ? item.title.toUpperCase()
+        const newData = userContacts.filter(item => {
+          const itemData = item.first_name
+            ? item.first_name.toUpperCase()
             : ''.toUpperCase();
           const textData = text.toUpperCase();
           return itemData.indexOf(textData) > -1;
         });
-        setFilterData(newData);
+
+        setFilterData(sortContacts(newData));
         setSearchValue(text);
       } else {
-        setFilterData(userContacts);
+        setFilterData(sortedContacts);
         setSearchValue(text);
       }
     },
@@ -105,7 +106,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
       <ActivityIndicator size="large" color="#0000ff" />
     </View>
   ) : (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <SectionList
         sections={filterData}
         ListHeaderComponent={
@@ -164,7 +165,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
         )}
         keyExtractor={item => item.id}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

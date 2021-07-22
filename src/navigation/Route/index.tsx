@@ -7,6 +7,7 @@ import {
   TransitionPresets,
 } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import {RootStackParamList} from '../root';
@@ -18,11 +19,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NewContact} from '../../screens/NewContactScreen';
 import {DetailsScreen} from '../../screens/DetailsScreen';
 import {EditScreen} from '../../screens/EditScreen';
-import {useSelector} from 'react-redux';
-import {Store} from '../../redux/store/types';
+import {Button} from 'react-native-elements';
+import {DrawerContent} from '../drawerContent';
+import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootStackParamList>();
+const Drawer = createDrawerNavigator();
 
 const tabBarOptions = {
   showLabel: false,
@@ -69,6 +73,32 @@ const Router = () => {
     );
   };
 
+  const MainStackNavigator = (): JSX.Element => {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen name="Favorite" component={FavoriteScreen} />
+      </Stack.Navigator>
+    );
+  };
+
+  const CustomDrawerContent = (): JSX.Element => {
+    return (
+      <View>
+        <Button title="Logout" />
+      </View>
+    );
+  };
+
+  const ContactsDrawerScreen = (): JSX.Element => {
+    return (
+      // drawerContent={props => <DrawerContent {...props} />}
+      <Drawer.Navigator>
+        <Drawer.Screen name="Home" component={ContactsTabScreen} />
+        <Drawer.Screen name="Favorite" component={FavoriteScreen} />
+      </Drawer.Navigator>
+    );
+  };
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -81,7 +111,7 @@ const Router = () => {
           <>
             <Stack.Screen
               name="Contacts"
-              component={ContactsTabScreen}
+              component={ContactsDrawerScreen}
               options={{
                 headerShown: false,
               }}
