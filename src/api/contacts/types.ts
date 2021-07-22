@@ -32,6 +32,13 @@ export interface getContactsPayload {
   is_favorite: boolean;
 }
 
+export interface sortedContactsPayload {
+  title: string;
+}
+
+export interface addSortedContactsPayload {
+  title: string;
+}
 export interface AddContactPayload {
   id: number;
   country_code: string;

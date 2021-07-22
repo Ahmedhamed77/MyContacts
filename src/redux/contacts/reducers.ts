@@ -37,6 +37,13 @@ export const contact: Reducer<ContactsReducer, ContactsAction> = (
         ...state,
         personContact: action.contactPerson,
       };
+    case 'DELETE_USER_CONTACT':
+      return {
+        ...state,
+        userContacts: state.userContacts.filter(
+          contact => contact.id !== action.id,
+        ),
+      };
     default:
       return state;
   }

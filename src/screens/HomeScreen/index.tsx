@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -16,13 +16,17 @@ import {StackNavigationProp} from '@react-navigation/stack';
 
 import {Icon} from '@ui-kitten/components';
 import {RootStackParamList} from '../../navigation/root';
-import {fetchContactsList} from '../../redux/contacts/actions';
+import {
+  deleteContactPerson,
+  fetchContactsList,
+} from '../../redux/contacts/actions';
 import {Store} from '../../redux/store/types';
 import {styles} from './style';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useIsFocused} from '@react-navigation/native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import {sortContacts} from '../../utils/sortContacts';
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -45,53 +49,54 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
     navigation.navigate('NewContact');
   };
 
-  const sortContacts = () => {
-    let contactsArr = [];
-    let aCode = 'A'.charCodeAt(0);
-    for (let i = 0; i < 26; i++) {
-      let currChar = String.fromCharCode(aCode + i);
-      let obj = {
-        title: currChar,
-      };
+  const sortedContacts = sortContacts(userContacts);
 
-      let currContacts = userContacts.filter(item => {
-        return item.last_name[0].toUpperCase() === currChar;
-      });
-      if (currContacts.length > 0) {
-        currContacts.sort((a, b) => a.last_name.localeCompare(b.last_name));
-        obj.data = currContacts;
-        contactsArr.push(obj);
-      }
-    }
+  console.log(userContacts, 'userContacts ====');
+  const [filterData, setFilterData] = useState(sortedContacts);
 
-    return contactsArr;
-  };
-  const dataContacts = sortContacts();
-  const test = dataContacts;
-  console.log(test, 'test ====');
-  console.log('data', dataContacts);
-  const [filterData, setFilterData] = useState(test);
   const isFocused = useIsFocused();
+  console.log('filterData is', filterData);
+
+  const searchFilter = useCallback(
+    text => {
+      if (text) {
+        const newData = userContacts.filter(function (item) {
+          const itemData = item.title
+            ? item.title.toUpperCase()
+            : ''.toUpperCase();
+          const textData = text.toUpperCase();
+          return itemData.indexOf(textData) > -1;
+        });
+        setFilterData(newData);
+        setSearchValue(text);
+      } else {
+        setFilterData(userContacts);
+        setSearchValue(text);
+      }
+    },
+    [userContacts],
+  );
 
   useEffect(() => {
-    console.log('here');
-    dispatch(fetchContactsList());
-  }, [isFocused]);
+    !userContacts.length && dispatch(fetchContactsList());
+    setFilterData(sortedContacts);
+    // setFilterData(userContacts);
+  }, [isFocused, userContacts]);
 
-  console.log('filter data', filterData);
-
-  const leftSwipe = (progress: any, dragX: any) => {
+  const renderLeftActions = (progress: any, dragX: any, id: number) => {
     const scale = dragX.interpolate({
       inputRange: [0, 100],
       outputRange: [0, 1],
       extrapolate: 'clamp',
     });
     return (
-      <View style={styles.delete}>
+      <TouchableOpacity
+        onPress={() => dispatch(deleteContactPerson(id))}
+        style={styles.delete}>
         <Animated.Text style={{transform: [{scale: scale}]}}>
           Delete
         </Animated.Text>
-      </View>
+      </TouchableOpacity>
     );
   };
   // FIXME: * FIXME type of onChangeText
@@ -102,7 +107,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
   ) : (
     <View style={styles.container}>
       <SectionList
-        sections={dataContacts}
+        sections={filterData}
         ListHeaderComponent={
           <View style={styles.headerContacts}>
             <View style={styles.headerTitle}>
@@ -131,12 +136,15 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
               placeholder="type here .."
               value={searchValue}
               containerStyle={styles.searchBar}
-              // onChangeText={text => searchFilterFunction(text)}
+              onChangeText={text => searchFilter(text)}
             />
           </View>
         }
         renderItem={({item}) => (
-          <Swipeable renderLeftActions={leftSwipe}>
+          <Swipeable
+            renderLeftActions={(progress, dragX) =>
+              renderLeftActions(progress, dragX, item.id)
+            }>
             <TouchableOpacity
               style={styles.row}
               onPress={() =>

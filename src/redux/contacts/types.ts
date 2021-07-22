@@ -3,6 +3,7 @@ import {
   fetchContact,
   addNewContacts,
   updateUserContact,
+  deletePersonContact,
   contactsIsLoading,
 } from './actions';
 export interface ContactsReducer {
@@ -32,4 +33,5 @@ export type ContactsAction =
   | ReturnType<typeof updateUserContact>
   | ReturnType<typeof contactsIsLoading>
   | ReturnType<typeof fetchContact>
+  | ReturnType<typeof deletePersonContact>
   | ReturnType<typeof addNewContacts>;

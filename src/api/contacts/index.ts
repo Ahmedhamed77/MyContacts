@@ -51,3 +51,8 @@ export const updatePersonContact = async (payload: AddContactPayload) => {
   );
   return response.data;
 };
+
+export const deleteContact = async (id: number) => {
+  const response = await $host.delete(`contacts/${id}`);
+  return response.data;
+};

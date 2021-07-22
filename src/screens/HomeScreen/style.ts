@@ -96,8 +96,9 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   delete: {
-    backgroundColor: 'red',
+    backgroundColor: '#d9051b',
     justifyContent: 'center',
+    color: '#000000',
     alignItems: 'center',
     width: 100,
     height: 40,

@@ -3,13 +3,16 @@ import {
   addNewContact,
   updatePersonContact,
   getPersonContact,
+  deleteContact,
 } from '../../api/contacts';
 import {AppThunk} from '../store/types';
 import {
   AddContactPayload,
   getContactsPayload,
+  sortedContactsPayload,
 } from './../../api/contacts/types';
-
+import {sortContacts} from '../../utils/sortContacts';
+import {log} from 'react-native-reanimated';
 export const contactsIsLoading = (status: boolean) =>
   <const>{
     type: 'CONTACTS_IS_LOADING',
@@ -20,6 +23,12 @@ export const fetchContacts = (contacts: getContactsPayload[]) =>
   <const>{
     type: 'GET_CONTACTS',
     contacts,
+  };
+
+export const fetchContact = (contactPerson: AddContactPayload) =>
+  <const>{
+    type: 'FETCH_CONTACT_WITH_ID',
+    contactPerson,
   };
 
 export const addNewContacts = (newContact: AddContactPayload) =>
@@ -34,17 +43,17 @@ export const updateUserContact = (contactPerson: AddContactPayload) =>
     contactPerson,
   };
 
-export const fetchContact = (contactPerson: AddContactPayload) =>
+export const deletePersonContact = (id: number) =>
   <const>{
-    type: 'FETCH_CONTACT_WITH_ID',
-    contactPerson,
+    type: 'DELETE_USER_CONTACT',
+    id,
   };
+
 export const fetchContactsList = (): AppThunk => async dispatch => {
   console.log('inside here');
   dispatch(contactsIsLoading(true));
   try {
     const res = await getContacts();
-    console.log(res, 'res===');
     dispatch(fetchContacts(res));
   } catch (error) {
     console.log(error, 'fetching contacts error');
@@ -55,8 +64,6 @@ export const fetchContactsList = (): AppThunk => async dispatch => {
 export const addContact =
   (payload: AddContactPayload): AppThunk =>
   async dispatch => {
-    console.log('inside addContact');
-    console.log(payload, 'payload===');
     try {
       const res = await addNewContact(payload);
       dispatch(addNewContacts(res));
@@ -81,14 +88,25 @@ export const updateContact =
 export const fetchPersonContact =
   (id: number): AppThunk =>
   async dispatch => {
-    console.log('what is id', id);
     dispatch(contactsIsLoading(true));
     try {
       const res = await getPersonContact(id);
       dispatch(fetchContact(res));
-      console.log(res, 'user contact');
     } catch (error: any) {
       console.log('error fetching contact', error);
+    }
+    dispatch(contactsIsLoading(false));
+  };
+
+export const deleteContactPerson =
+  (id: number): AppThunk =>
+  async dispatch => {
+    dispatch(contactsIsLoading(true));
+    try {
+      await deleteContact(id);
+      dispatch(deletePersonContact(id));
+    } catch (error: any) {
+      console.log(error, 'error deletePersonContact');
     }
     dispatch(contactsIsLoading(false));
   };
