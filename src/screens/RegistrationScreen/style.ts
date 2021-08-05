@@ -12,7 +12,10 @@ export const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   button: {
-    backgroundColor: 'black',
+    backgroundColor: '#000',
+    paddingBottom: 8,
+    marginBottom: 8,
+    borderRadius: 8,
   },
 
   container: {
@@ -40,5 +43,10 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 25,
     color: '#1554F6',
+  },
+  errorMsg: {
+    paddingBottom: 8,
+    color: '#800813',
+    fontSize: 12,
   },
 });

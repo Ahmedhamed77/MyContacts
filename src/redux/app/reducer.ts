@@ -1,8 +1,10 @@
 import {combineReducers} from 'redux';
 import {user} from '../user/reducer';
-import {contact} from '../contacts/reducers';
+import {contacts} from '../contacts/getContacts/reducers';
+import {addNewContact} from '../contacts/addContact/reducers';
 
 export const appReducers = combineReducers({
   user,
-  contact,
+  contacts,
+  addNewContact,
 });

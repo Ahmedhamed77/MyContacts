@@ -13,7 +13,6 @@ export const $host = axios.create({
 $host.interceptors.request.use(
   async config => {
     const token: any = await AsyncStorage.getItem('token');
-
     if (!config.headers.Authorization) {
       console.log('request interceptors');
       if (token) {

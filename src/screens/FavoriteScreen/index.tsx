@@ -18,9 +18,6 @@ export const FavoriteScreen = () => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View>
-        <Text> {count} Favorites</Text>
-      </View>
-      <View>
         {contacts.map(contact => {
           return (
             contact.is_favorite && (

@@ -12,11 +12,11 @@ import {Image} from 'react-native-elements';
 import {Input, Button, Text} from '@ui-kitten/components';
 import styles from './style';
 import {useDispatch} from 'react-redux';
-import {addContact} from '../../redux/contacts/actions';
 import {AddContactPayload} from '../../api/contacts/types';
 import {ImagePicker} from '../../utils/ImagePicker';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackParamList} from '../../navigation/root';
+import {addContact} from '../../redux/contacts/addContact/actions';
 
 type NewContactScreenProps = {
   navigation: NewContactNavigationProp;
@@ -49,6 +49,7 @@ export const NewContact: React.FC<NewContactScreenProps> = ({navigation}) => {
       is_favorite: false,
     },
   });
+
   const uploadAvatar = async () => {
     const avatar = await ImagePicker.pickSquarePhoto();
     const checkSize = avatar && ImagePicker.checkSize(avatar);
@@ -63,11 +64,13 @@ export const NewContact: React.FC<NewContactScreenProps> = ({navigation}) => {
       console.log(error, 'error uploadAvatar');
     }
   };
+
   const onSubmit = handleSubmit(data => {
     console.log(data, 'data');
     dispatch(addContact(data));
     navigation.goBack();
   });
+
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <View style={styles.container}>
@@ -104,6 +107,9 @@ export const NewContact: React.FC<NewContactScreenProps> = ({navigation}) => {
           }}
           defaultValue=""
         />
+        {errors.first_name && (
+          <Text style={styles.errorMsg}>{errors.first_name.message}</Text>
+        )}
         <Text style={styles.label}>Last name</Text>
         <Controller
           control={control}
@@ -126,6 +132,9 @@ export const NewContact: React.FC<NewContactScreenProps> = ({navigation}) => {
           }}
           defaultValue=""
         />
+        {errors.last_name && (
+          <Text style={styles.errorMsg}>{errors.last_name.message}</Text>
+        )}
         <Text style={styles.label}>phone number</Text>
         <Controller
           control={control}
@@ -149,6 +158,9 @@ export const NewContact: React.FC<NewContactScreenProps> = ({navigation}) => {
           }}
           defaultValue=""
         />
+        {errors.phone_number && (
+          <Text style={styles.errorMsg}>{errors.phone_number.message}</Text>
+        )}
         <Text style={styles.label}>Country Code</Text>
         <Controller
           control={control}
@@ -171,7 +183,9 @@ export const NewContact: React.FC<NewContactScreenProps> = ({navigation}) => {
           }}
           defaultValue=""
         />
-
+        {errors.country_code && (
+          <Text style={styles.errorMsg}>{errors.country_code.message}</Text>
+        )}
         <View style={styles.buttonContainer}>
           <Button style={styles.button} onPress={onSubmit}>
             Save

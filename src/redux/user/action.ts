@@ -10,7 +10,7 @@ export const userIsLoading = (state: boolean) =>
     state,
   };
 
-export const getToken = (token: string) =>
+export const getToken = (token: string | null) =>
   <const>{
     type: 'GET_TOKEN',
     token,
@@ -39,20 +39,26 @@ export const userRegistrations =
 export const getUserLogin =
   (username: string, password: string): AppThunk =>
   async dispatch => {
-    console.log('iam here in getUSer');
-    console.log(username, password);
     dispatch(userIsLoading(true));
     try {
-      console.log('insidexs');
       const response = await login({username, password});
-      console.log(response.token, 'what is here');
       const token = response.token;
       dispatch(getToken(token));
       await AsyncStorage.setItem('token', token);
       dispatch(getUser(response.user));
-      console.log(response, 'repsonse');
     } catch (error) {
-      Alert.alert('Error , try to enter correct username or password');
+      Alert.alert(
+        'Invalid UserName or Password',
+        'Try to enter correct userName or password ',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => {},
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => {}},
+        ],
+      );
       console.log(error, 'login Error');
     }
     dispatch(userIsLoading(false));

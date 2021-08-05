@@ -56,6 +56,11 @@ const styles = StyleSheet.create({
     lineHeight: 25,
     color: '#1554F6',
   },
+  errorMsg: {
+    paddingBottom: 6,
+    color: '#800813',
+    fontSize: 12,
+  },
 });
 
 export default styles;

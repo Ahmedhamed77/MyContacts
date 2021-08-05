@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {Input, Button, Text} from '@ui-kitten/components';
+import {Input, Text} from '@ui-kitten/components';
 import {View, Alert} from 'react-native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useDispatch, useSelector} from 'react-redux';
+import {Button} from 'react-native-elements';
+
 import {getUserLogin} from '../../redux/user/action';
 import styles from './style';
 import {RootStackParamList} from '../../navigation/root';
@@ -21,6 +23,7 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
   const [loginValue, setLoginValue] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
+  const isLoading = useSelector((store: Store) => store.user.isLoading);
 
   const navigationToRegister = () => {
     navigation.navigate('Register');
@@ -54,15 +57,13 @@ const LoginScreen: React.FC<Props> = ({navigation}) => {
         value={loginPassword}
         onChangeText={nextValue => setLoginPassword(nextValue)}
       />
-      <View style={styles.controlContainer}>
-        <Button
-          onPress={loginButton}
-          style={styles.button}
-          appearance="ghost"
-          status="control">
-          LOGIN
-        </Button>
-      </View>
+
+      <Button
+        title="LOGIN"
+        loading={isLoading}
+        onPress={loginButton}
+        buttonStyle={styles.button}
+      />
 
       <View style={styles.Footer}>
         <Text style={styles.Normal}>

@@ -20,9 +20,10 @@ import {NewContact} from '../../screens/NewContactScreen';
 import {DetailsScreen} from '../../screens/DetailsScreen';
 import {EditScreen} from '../../screens/EditScreen';
 import {Button} from 'react-native-elements';
-import {DrawerContent} from '../drawerContent';
 import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {Store} from '../../redux/store/types';
+import {useDispatch, useSelector} from 'react-redux';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootStackParamList>();
@@ -37,15 +38,21 @@ const tabBarOptions = {
 };
 
 const Router = () => {
-  // const token = useSelector((store: Store) => store.user.token);
+  const [token, setToken] = useState<null | string>(null);
+  const [isLoaded, setLoaded] = useState(false);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        if (token !== null) await setToken(token);
+      } catch (error: any) {
+        console.log('error finding token: ' + error.message);
+      }
+      setLoaded(true);
+    };
+    getData();
+  }, []);
 
-  const getToken = async () => {
-    const token = await AsyncStorage.getItem('token');
-    return token;
-  };
-
-  const tokenUser = getToken();
-  // TODO * FIXME >> move me to another file
   const ContactsTabScreen = (): JSX.Element => {
     return (
       <Tab.Navigator tabBarOptions={tabBarOptions}>
@@ -91,27 +98,38 @@ const Router = () => {
 
   const ContactsDrawerScreen = (): JSX.Element => {
     return (
-      // drawerContent={props => <DrawerContent {...props} />}
       <Drawer.Navigator>
         <Drawer.Screen name="Home" component={ContactsTabScreen} />
         <Drawer.Screen name="Favorite" component={FavoriteScreen} />
       </Drawer.Navigator>
     );
   };
-
+  console.log(token === null, 'tokenUser');
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {tokenUser === null ? (
+        {token === null ? (
           <>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Register" component={RegisterScreen} />
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{
+                ...TransitionPresets.SlideFromRightIOS,
+              }}
+            />
+            <Stack.Screen
+              name="Register"
+              component={RegisterScreen}
+              options={{
+                ...TransitionPresets.SlideFromRightIOS,
+              }}
+            />
           </>
         ) : (
           <>
             <Stack.Screen
               name="Contacts"
-              component={ContactsDrawerScreen}
+              component={ContactsTabScreen}
               options={{
                 headerShown: false,
               }}

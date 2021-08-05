@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   safeArea: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
     marginHorizontal: 10,
     flex: 1,
   },

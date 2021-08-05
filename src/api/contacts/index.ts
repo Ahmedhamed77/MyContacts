@@ -10,7 +10,6 @@ import {
   AddContactPayload,
 } from './types';
 import {$host} from '../axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const login = async (payload: LoginPayload) => {
   const response = await $host.post<LoginResponsePayload>(
