@@ -20,10 +20,6 @@ import {NewContact} from '../../screens/NewContactScreen';
 import {DetailsScreen} from '../../screens/DetailsScreen';
 import {EditScreen} from '../../screens/EditScreen';
 import {Button} from 'react-native-elements';
-import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import {Store} from '../../redux/store/types';
-import {useDispatch, useSelector} from 'react-redux';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootStackParamList>();
@@ -40,6 +36,7 @@ const tabBarOptions = {
 const Router = () => {
   const [token, setToken] = useState<null | string>(null);
   const [isLoaded, setLoaded] = useState(false);
+
   useEffect(() => {
     const getData = async () => {
       try {

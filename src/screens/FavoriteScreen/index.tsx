@@ -4,9 +4,8 @@ import {Avatar} from 'react-native-elements';
 
 import {styles} from './style';
 import {dataPhotos} from './personPhotos';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Store} from '../../redux/store/types';
-import {contact} from '../../redux/contacts/reducers';
 
 export const FavoriteScreen = () => {
   const url = dataPhotos[Math.floor(Math.random() * dataPhotos.length)];

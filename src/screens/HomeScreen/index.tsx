@@ -27,7 +27,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {useIsFocused} from '@react-navigation/native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {sortContacts} from '../../utils/sortContacts';
-import {fetchContacts} from '../../redux/contacts/getContacts/actions';
 
 type HomeScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -41,9 +40,9 @@ type Props = {
 const HomeScreen: React.FC<Props> = ({navigation}) => {
   const dispatch = useDispatch();
   const userContacts = useSelector(
-    (store: Store) => store.contacts.userContacts,
+    (store: Store) => store.contact.userContacts,
   );
-  const isLoading = useSelector((store: Store) => store.contacts.isLoading);
+  const isLoading = useSelector((store: Store) => store.contact.isLoading);
   const [searchValue, setSearchValue] = useState('');
 
   const navigationToAddNewContact = () => {
@@ -78,7 +77,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
   );
 
   useEffect(() => {
-    !userContacts.length && dispatch(fetchContacts());
+    !userContacts.length && dispatch(fetchContactsList());
     setFilterData(sortedContacts);
     // setFilterData(userContacts);
   }, [isFocused, userContacts]);
